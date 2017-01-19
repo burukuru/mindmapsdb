@@ -11,7 +11,11 @@ cache:
 
 notifications:
   slack: grakn:RbxoPzX267spGT4cgmoGLMpT
-install: mvn install -T 2.5C -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+env:
+  - TEST_PROFILE=tinker
+  - TEST_PROFILE=titan
+install: mvn install -T 2.5C -DskipTests=true -Dmaven.javadoc.skip=true -B -V -P $TEST_PROFILE
 script:
     - mvn test jacoco:report
     - bash <(curl -s https://codecov.io/bash)
