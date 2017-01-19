@@ -12,10 +12,16 @@ cache:
 notifications:
   slack: grakn:RbxoPzX267spGT4cgmoGLMpT
 
-env:
-  - TEST_PROFILE=tinker
-  - TEST_PROFILE=titan
-install: mvn install -T 2.5C -DskipTests=true -Dmaven.javadoc.skip=true -B -V -P $TEST_PROFILE
+matrix:
+  env:
+    - TEST_PROFILE=tinker
+    - TEST_PROFILE=titan
+  env:
+    - TEST_DIR=ai.grakn.test.migration.export
+    - TEST_DIR=ai.grakn.test.migration.json
+    - TEST_DIR=ai.grakn.test.migration.owl
+    - TEST_DIR=ai.grakn.test.migration.sql
+install: mvn install -T 2.5C -DskipTests=true -Dmaven.javadoc.skip=true -B -V -P $TEST_PROFILE -Dtest=$TEST_DIR
 script:
     - mvn test jacoco:report
     - bash <(curl -s https://codecov.io/bash)
