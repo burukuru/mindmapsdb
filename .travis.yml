@@ -13,9 +13,8 @@ notifications:
   slack: grakn:RbxoPzX267spGT4cgmoGLMpT
 
 env:
-  matrix:
+  global:
     - TEST_PROFILE=tinker
-    - TEST_PROFILE=titan
   matrix:
     - TEST_DIR=ai.grakn.test.migration.export
     - TEST_DIR=ai.grakn.test.migration.json
