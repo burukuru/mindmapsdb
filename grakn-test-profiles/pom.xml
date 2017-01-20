@@ -184,7 +184,7 @@
                                 </goals>
                                 <phase>integration-test</phase>
                                 <configuration>
-                                    <executable>${project.basedir}/bin/run_test_in_docker.sh</executable>
+                                    <executable>${project.basedir}/../grakn-test/bin/run_test_in_docker.sh</executable>
                                     <arguments>
                                         <argument>${grakn.test-profile}</argument>
                                     </arguments>
