@@ -3,4 +3,4 @@ FROM graknlabs/jenkins-base
 ENV WORKSPACE $WORKSPACE
 COPY . /grakn-src/
 WORKDIR /grakn-src/
-RUN mvn install -DskipTests=True -DskipITs=True
+RUN mvn install -DskipTests=True -DskipITs=True -Dmaven.javadoc.skip=true -q -U
