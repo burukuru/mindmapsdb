@@ -105,7 +105,7 @@
         <profile>
             <id>docker</id>
             <properties>
-                <jenkins.docker-test.reportsDirectory>${project.basedir}/../grakn-test/target/surefire-reports</jenkins.docker-test.reportsDirectory>
+                <jenkins.docker-test.reportsDirectory>${project.basedir}/../grakn-test-profiles/target/surefire-reports</jenkins.docker-test.reportsDirectory>
             </properties>
             <dependencies>
                 <dependency>
