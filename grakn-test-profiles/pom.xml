@@ -16,6 +16,7 @@
     <properties>
         <grakn.test-profile>tinker</grakn.test-profile>
         <main.basedir>${project.parent.parent.basedir}</main.basedir>
+        <docker-tests>true</docker-tests>
     </properties>
 
     <build>
@@ -106,6 +107,7 @@
             <id>docker</id>
             <properties>
                 <jenkins.docker-test.reportsDirectory>${project.basedir}/../grakn-test-profiles/target/surefire-reports</jenkins.docker-test.reportsDirectory>
+                <docker-tests>false</docker-tests>
             </properties>
             <build>
                 <plugins>
@@ -128,42 +130,6 @@
                             <exclude>**/**</exclude>
                           </excludes>
                         </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.5.0</version>
-                        <executions>
-                            <execution>
-                                <id>docker-image-with-src-compiled</id>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <phase>integration-test</phase>
-                                <configuration>
-                                    <executable>/usr/bin/docker</executable>
-                                    <arguments>
-                                        <argument>build</argument>
-                                        <argument>-t</argument>
-                                        <argument>graknlabs/jenkins-with-src-compiled:latest</argument>
-                                        <argument>${project.basedir}/../</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>docker-test</id>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <phase>integration-test</phase>
-                                <configuration>
-                                    <executable>${project.basedir}/../grakn-test/bin/run_test_in_docker.sh</executable>
-                                    <arguments>
-                                        <argument>${grakn.test-profile}</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
