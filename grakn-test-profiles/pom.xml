@@ -106,7 +106,6 @@
         <profile>
             <id>docker</id>
             <properties>
-                <jenkins.docker-test.reportsDirectory>${project.basedir}/../grakn-test-profiles/target/surefire-reports</jenkins.docker-test.reportsDirectory>
                 <docker-tests>false</docker-tests>
             </properties>
             <build>
