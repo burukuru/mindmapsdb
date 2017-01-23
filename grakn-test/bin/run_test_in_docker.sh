@@ -9,5 +9,5 @@ do
   MODULE=$(basename $MODULE_DIR)
   find $MODULE_DIR -name '*Test.java' -o -name '*IT.java' | xargs --no-run-if-empty -n1 basename | sed -e "s#^#$MODULE #" -e 's#\.java##' >> /tmp/grakn_mvn_docker_test_list
 done
-parallel --no-run-if-empty --colsep ' ' "echo /usr/bin/docker run -i -v "$SCRIPT_DIR"/../../grakn-test/target/surefire-reports:/grakn-src/grakn-test/target/surefire-reports/ -w /grakn-src/ graknlabs/jenkins-with-src-compiled:latest mvn test -DfailIfNoTests=false -Dtest={1} -P"${GRAKN_TEST_PROFILE}" -pl {2}" < /tmp/grakn_mvn_docker_test_list
+parallel --no-run-if-empty --colsep ' ' "echo /usr/bin/docker run -i -v "$SCRIPT_DIR"/../../grakn-test/target/surefire-reports:/grakn-src/grakn-test/target/surefire-reports/ -w /grakn-src/ graknlabs/jenkins-with-src-compiled:latest mvn test -DfailIfNoTests=false -Dsurefire.rerunFailingTestsCount=2 -Dtest={1} -P"${GRAKN_TEST_PROFILE}" -pl {2}" < /tmp/grakn_mvn_docker_test_list
 rm /tmp/grakn_mvn_docker_test_list
