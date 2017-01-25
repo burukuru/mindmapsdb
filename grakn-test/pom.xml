@@ -32,7 +32,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <jenkins.docker-test.reportsDirectory>${project.basedir}/../grakn-test/target/surefire-reports</jenkins.docker-test.reportsDirectory>
+        <jenkins.docker-test.reportsDirectory>${project.basedir}/target/surefire-reports</jenkins.docker-test.reportsDirectory>
     </properties>
 
     <dependencies>
@@ -232,7 +232,7 @@
                         </goals>
                         <phase>integration-test</phase>
                         <configuration>
-                            <executable>${project.basedir}/../grakn-test/bin/run_test_in_docker.sh</executable>
+                            <executable>${project.basedir}/bin/run_test_in_docker.sh</executable>
                             <arguments>
                                 <argument>${grakn.test-profile}</argument>
                             </arguments>
