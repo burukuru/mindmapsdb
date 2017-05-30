@@ -22,11 +22,12 @@ stage ('Build and test') {
 }
 
 stage ('Deploy to staging') {
-  node('agent1') {
+  node('agent') {
+    sh "git clone git@github.com:graknlabs/infrastructure.git || true"
     ansiblePlaybook(
-        inventory: '/home/jenkins/infrastructure/onpremise/ci/inventory',
-        playbook: '/home/jenkins/infrastructure/onpremise/ci/site.yml',
-        extras: '-u root -e '{grakn_engine_taskmanager_implementation: ai.grakn.engine.tasks.manager.StandaloneTaskManager}' -e grakn_engine_version=$POM_VERSION -e '{redeploy: "true"}' -e grakn_download_url="$BUILD_URL/ai.grakn$grakn-dist/artifact/ai.grakn/grakn-dist/$POM_VERSION/grakn-dist-$POM_VERSION.tar.gz"'
+        inventory: '$WORKSPACE/infrastructure/onpremise/ci/inventory',
+        playbook: '$WORKSPACE/infrastructure/onpremise/ci/site.yml',
+        extras: '-u root -e grakn_engine_version=$POM_VERSION -e \'{redeploy: "true"}\' -e grakn_download_url="$BUILD_URL/ai.grakn$grakn-dist/artifact/ai.grakn/grakn-dist/$POM_VERSION/grakn-dist-$POM_VERSION.tar.gz"'
         )
   }
 }
