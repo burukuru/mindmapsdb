@@ -3,7 +3,6 @@ stage ('Build and test') {
     // Trigger on !rtg
     // Set status 'unit-test-pull-request-grakn-titan' to pending
     // Cancel previous build
-    sh 'sudo -i chown -R ubuntu:ubuntu /home/ubuntu/'
     sh 'npm config set registry http://registry.npmjs.org/'
     checkout scm
     sh 'mvn clean package -DskipTests -U -Djetty.log.level=WARNING -Djetty.log.appender=STDOUT'
