@@ -10,12 +10,8 @@ stage ('Build and test') {
     sh 'sudo -i chown -R ubuntu:ubuntu /home/ubuntu/'
     sh 'npm config set registry http://registry.npmjs.org/'
     checkout scm
-    sh 'mvn clean verify -P titan,docker -U -Djetty.log.level=WARNING -Djetty.log.appender=STDOUT'
+    sh 'mvn clean package -DskipTests -U -Djetty.log.level=WARNING -Djetty.log.appender=STDOUT'
     // Set status 'unit-test-pull-request-grakn-titan' to complete
-    setGitHubPullRequestStatus (
-      context: "unit-test-pull-request-grakn-titan"
-      state: currentBuild.result
-        )
     // Notify Slack on abort/fail/success/unstable
     // flaky tests
   }
