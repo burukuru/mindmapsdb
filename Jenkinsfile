@@ -1,5 +1,5 @@
 stage ('Build and test') {
-  node('ec2-spot') {
+  node {
     // Trigger on !rtg
     // Set status 'unit-test-pull-request-grakn-titan' to pending
     // Cancel previous build
