@@ -1,23 +1,23 @@
 stage ('Build and test') {
   node('ec2-spot') {
-    # Trigger on !rtg
-    # Set status 'unit-test-pull-request-grakn-titan' to pending
+    // Trigger on !rtg
+    // Set status 'unit-test-pull-request-grakn-titan' to pending
     setGitHubPullRequestStatus (
       context: "unit-test-pull-request-grakn-titan"
       state: currentBuild.result
         )
-    # Cancel previous build
+    // Cancel previous build
     sh 'sudo -i chown -R ubuntu:ubuntu /home/ubuntu/'
     sh 'npm config set registry http://registry.npmjs.org/'
     checkout scm
     sh 'mvn clean verify -P titan,docker -U -Djetty.log.level=WARNING -Djetty.log.appender=STDOUT'
-    # Set status 'unit-test-pull-request-grakn-titan' to complete
+    // Set status 'unit-test-pull-request-grakn-titan' to complete
     setGitHubPullRequestStatus (
       context: "unit-test-pull-request-grakn-titan"
       state: currentBuild.result
         )
-    # Notify Slack on abort/fail/success/unstable
-    # flaky tests
+    // Notify Slack on abort/fail/success/unstable
+    // flaky tests
   }
 }
 
