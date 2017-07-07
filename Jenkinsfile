@@ -2,10 +2,6 @@ stage ('Build and test') {
   node('ec2-spot') {
     // Trigger on !rtg
     // Set status 'unit-test-pull-request-grakn-titan' to pending
-    setGitHubPullRequestStatus (
-      context: "unit-test-pull-request-grakn-titan"
-      state: currentBuild.result
-        )
     // Cancel previous build
     sh 'sudo -i chown -R ubuntu:ubuntu /home/ubuntu/'
     sh 'npm config set registry http://registry.npmjs.org/'
