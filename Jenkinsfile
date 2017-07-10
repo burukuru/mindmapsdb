@@ -5,7 +5,7 @@ stage ('Build and test') {
     // Cancel previous build
     sh 'npm config set registry http://registry.npmjs.org/'
     checkout scm
-    sh 'mvn versions:set "-DnewVersion=env.BRANCH_NAME" "-DgenerateBackupPoms=false"'
+    sh 'mvn versions:set "-DnewVersion=${env.BRANCH_NAME}" "-DgenerateBackupPoms=false"'
     sh 'mvn clean package -DskipTests -U -Djetty.log.level=WARNING -Djetty.log.appender=STDOUT'
     // Set status 'unit-test-pull-request-grakn-titan' to complete
     // Notify Slack on abort/fail/success/unstable
