@@ -30,7 +30,7 @@ public class SystemKeyspaceTest {
     private final Function<String, GraknTx> externalFactoryGraphProvider = (k) -> Grakn.session(engine.uri(), k).open(GraknTxType.WRITE);
 
     @ClassRule
-    public static final EngineContext engine = EngineContext.inMemoryServer();
+    public static final EngineContext engine = EngineContext.createWithInMemoryRedis();
 
     @Rule
     public final ExpectedException expectedException = ExpectedException.none();
@@ -71,36 +71,6 @@ public class SystemKeyspaceTest {
         }
 
         graphs.forEach(GraknTx::close);
-    }
-
-    @Test
-    public void whenConnectingToSystemGraph_EnsureUserSchemaIsLoaded(){
-        try(GraknTx graph = engine.server().factory().tx(SYSTEM_KB_KEYSPACE, GraknTxType.WRITE)) {
-
-            EntityType user = graph.getEntityType("user");
-            AttributeType userName = graph.getAttributeType("user-name");
-            AttributeType userPassword = graph.getAttributeType("user-password");
-            AttributeType userFirstName = graph.getAttributeType("user-first-name");
-            AttributeType userLastName = graph.getAttributeType("user-last-name");
-            AttributeType userEmail = graph.getAttributeType("user-email");
-            AttributeType userIsAdmin = graph.getAttributeType("user-is-admin");
-
-            //Check Plays
-            assertTrue(user.plays().anyMatch(role -> role.equals(
-                    graph.getRole(Schema.ImplicitType.KEY_OWNER.getLabel(userName.getLabel()).getValue()))));
-            assertTrue(user.plays().anyMatch(role -> role.equals(
-                    graph.getRole(Schema.ImplicitType.HAS_OWNER.getLabel(userPassword.getLabel()).getValue()))));
-            assertTrue(user.plays().anyMatch(role -> role.equals(
-                    graph.getRole(Schema.ImplicitType.HAS_OWNER.getLabel(userFirstName.getLabel()).getValue()))));
-            assertTrue(user.plays().anyMatch(role -> role.equals(
-                    graph.getRole(Schema.ImplicitType.HAS_OWNER.getLabel(userLastName.getLabel()).getValue()))));
-            assertTrue(user.plays().anyMatch(role -> role.equals(
-                    graph.getRole(Schema.ImplicitType.HAS_OWNER.getLabel(userEmail.getLabel()).getValue()))));
-            assertTrue(user.plays().anyMatch(role -> role.equals(
-                    graph.getRole(Schema.ImplicitType.HAS_OWNER.getLabel(userIsAdmin.getLabel()).getValue()))));
-
-            graph.close();
-        }
     }
 
     @Test

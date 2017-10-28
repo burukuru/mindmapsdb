@@ -68,12 +68,6 @@ public class RedisTaskManager implements TaskManager {
     private final RedisTaskStorage taskStorage;
 
     public RedisTaskManager(EngineID engineId, GraknEngineConfig config, Pool<Jedis> jedisPool,
-            EngineGraknTxFactory factory, LockProvider distributedLockClient,
-            MetricRegistry metricRegistry) {
-        this(engineId, config, jedisPool, 32, factory, distributedLockClient, metricRegistry);
-    }
-
-    public RedisTaskManager(EngineID engineId, GraknEngineConfig config, Pool<Jedis> jedisPool,
             int threads, EngineGraknTxFactory factory, LockProvider distributedLockClient,
             MetricRegistry metricRegistry) {
         Consumer<Task> consumer = new RedisTaskQueueConsumer(this, engineId, config,
@@ -149,6 +143,7 @@ public class RedisTaskManager implements TaskManager {
             throws StateFutureInitializationException, ExecutionException, InterruptedException {
         return redisq.getFutureForDocumentStateWait(ImmutableSet.of(DONE, FAILED), taskId.getValue());
     }
+
 
     public void waitForTask(TaskId taskId, long timeout, TimeUnit timeUnit)
             throws StateFutureInitializationException, ExecutionException, InterruptedException, TimeoutException {

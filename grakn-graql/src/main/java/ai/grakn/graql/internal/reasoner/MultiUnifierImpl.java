@@ -18,12 +18,14 @@
 
 package ai.grakn.graql.internal.reasoner;
 
+import ai.grakn.exception.GraqlQueryException;
 import ai.grakn.graql.Var;
 import ai.grakn.graql.admin.MultiUnifier;
 import ai.grakn.graql.admin.Unifier;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.UnmodifiableIterator;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -76,6 +78,16 @@ public class MultiUnifierImpl implements MultiUnifier{
     @Override
     public Unifier getUnifier() {
         return Iterables.getOnlyElement(multiUnifier);
+    }
+
+    @Override
+    public Unifier getAny() {
+        //TODO add a check it's a structural one
+        UnmodifiableIterator<Unifier> iterator = multiUnifier.iterator();
+        if (!iterator.hasNext()){
+            throw GraqlQueryException.nonExistentUnifier();
+        }
+        return iterator.next();
     }
 
     @Override

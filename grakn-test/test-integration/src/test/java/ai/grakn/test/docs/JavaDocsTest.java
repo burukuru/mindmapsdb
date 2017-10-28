@@ -66,7 +66,9 @@ public class JavaDocsTest {
     private static int numFound = 0;
 
     @ClassRule
-    public static EngineContext engine = EngineContext.inMemoryServer();
+    public static EngineContext engine = EngineContext.createWithInMemoryRedis();
+
+    public static String knowledgeBaseName;
 
     @Parameterized.Parameters(name = "{1}")
     public static Collection files() {
@@ -93,6 +95,8 @@ public class JavaDocsTest {
         byte[] encoded = Files.readAllBytes(file.toPath());
 
         String contents = new String(encoded, StandardCharsets.UTF_8);
+
+        knowledgeBaseName = DocTestUtil.getKnowledgeBaseName(contents);
 
         Matcher matcher = TAG_JAVA.matcher(contents);
 
