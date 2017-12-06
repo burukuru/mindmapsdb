@@ -280,13 +280,15 @@ def runBuild() {
     graknNode { workspace ->
         checkout scm
 
-        // Push to Grakn Maven if tests pass
-        if (isMainBranch()) {
-            withMaven(
-                options: [artifactsPublisher(disabled: true)],
-                mavenSettingsConfig: '8358fa5c-17c9-4a16-b501-4ebacb7f163d',
-            ){
-                sh 'mvn clean deploy -T 14 --batch-mode -DskipTests -U -Djetty.log.level=WARNING -Djetty.log.appender=STDOUT -PgraknRepo'
+        stage('Deploy Java artifacts to Grakn Maven') {
+            // Push to Grakn Maven if tests pass
+            if (isMainBranch()) {
+                withMaven(
+                    options: [artifactsPublisher(disabled: true)],
+                    mavenSettingsConfig: '8358fa5c-17c9-4a16-b501-4ebacb7f163d',
+                ){
+                    sh 'mvn clean deploy -T 14 --batch-mode -DskipTests -U -Djetty.log.level=WARNING -Djetty.log.appender=STDOUT -PgraknRepo'
+                }
             }
         }
 
